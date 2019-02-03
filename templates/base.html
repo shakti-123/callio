@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CallIo</title>
+
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="app" class="col-md-11 shadow-container">
+        <user-interaction
+        v-model= "temp_dict.inp_val"
+        v-bind:out_val= "temp_dict.out_val"
+        v-bind:time= "temp_dict.time"
+        v-bind:temp_dict="temp_dict">
+        </user-interaction>
+
+        <history-table
+        v-bind:histories="temp_dict.histories">
+        </history-table>
+    </div>
+</body>
+
+<script>
+
+    temp_dict = {
+        'inp_val': 0,
+        'out_val': 0,
+        'time': 0,
+        'histories': []
+    };
+
+    jQuery(document).ready(function ($) {
+
+        /* Vue Code Snippet */
+        var app = new Vue({
+            el: '#app',
+            components: {
+                'user-interaction': User,
+                'history-table': History
+            },
+
+            data() {
+                return {
+                    temp_dict: temp_dict
+                };
+            }
+        });
+    });
+
+    get_history();
+
+    var userInteractiontemplate = `
+    <div class="panel panel-primary" style="padding: 20px">
+        <label class="panel-heading"><h3>Enter position to find its Fibonacci Value.</h3></label>
+        <div class="panel-body">
+            <input type="text" id="inp_val" v-model:value="temp_dict.inp_val">
+            <button @click="get_ans" class="btn btn-info">Find!</button>
+            <button @click="save_ans" class="btn btn-primary">Save!</button>
+        </div>
+        <div class="col-xs-12 col-lg-12 col-md-12 col-sm-12 col-print-12 text-center" style="background-color: #eaeaea; margin-top: 10px">
+            <h5 style="font-weight: 600; font-size: 16px">Output:</h5>
+            <span style="font-size: 16px">Value: <b>[[ out_val ]]</b> in <b>[[ time ]]ms.</b></span>
+        </div>
+    </div>
+    `;
+
+    var User = {
+        name: 'user-interaction',
+        delimiters: ['[[', ']]'],
+        props: ['inp_val', 'out_val', 'time', 'temp_dict'],
+        methods: {
+            get_ans: function () {
+
+                fetch('/fibonacci/get_number/?position='+ this.temp_dict.inp_val).then(function(response) {
+                    if (response.status === 200) {
+                        response.json().then(function (data) {
+                            temp_dict.out_val = data.value;
+                            temp_dict.time = data.time;
+                        })
+                    }
+                    else{
+                        console.log("Bad status");
+                    }
+                })
+                .catch(error => console.error(error));
+            },
+
+            save_ans: function () {
+
+                fetch('/fibonacci/',{
+                    method: "POST",
+                    headers: { "Content-type": "application/json; charset=UTF-8" },
+                    body: JSON.stringify({'position': this.temp_dict.inp_val, 'value': this.temp_dict.out_val, 'time': this.temp_dict.time})
+                }).then(function(response) {
+                    if (response.status === 200) {
+                        response.json().then(function (data) {
+                            get_history();
+                            alert('Data Saved!!');
+                        })
+                    }
+                    else{
+                        console.log("Bad status");
+                    }
+                })
+                .catch(error => console.error(error));
+            }
+
+        },
+        template: userInteractiontemplate
+    };
+
+    var historyTemplate = `
+    <div class="container">
+        <h2>Saved History</h2>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Postion</th>
+                <th>Value</th>
+                <th>Time(ms)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="history in histories">
+                <td>[[ history.position ]]</td>
+                <td>[[ history.value ]]</td>
+                <td>[[ history.time ]]</td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+    `;
+
+    var History = {
+        name: 'history-table',
+        delimiters: ['[[', ']]'],
+        props: ['histories'],
+        template: historyTemplate
+    };
+
+    function get_history() {
+        fetch('/fibonacci/get_history/').then(function(response) {
+            if (response.status === 200) {
+                response.json().then(function (data) {
+                    this.temp_dict.histories = data;
+                    return data;
+                })
+            }
+            else{
+                console.log("Bad status");
+            }
+        })
+        .catch(error => console.error(error));
+    }
+
+</script>
+</html>
