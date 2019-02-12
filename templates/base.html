@@ -37,13 +37,10 @@
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
-                                <v-flex xs12 sm6 md4>
+                                <v-flex xs12 sm6 md6>
                                     <v-text-field label="Legal first name*" name="f-name" required></v-text-field>
                                 </v-flex>
-                                <v-flex xs12 sm6 md4>
-                                    <v-text-field label="Legal middle name" name="m-name"></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 sm6 md4>
+                                <v-flex xs12 sm6 md6>
                                     <v-text-field
                                             label="Legal last name*"
                                             name="l-name"
@@ -70,7 +67,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="blue darken-1" flat @click="dialog_u = false">Close</v-btn>
-                        <v-btn color="blue darken-1" flat @click="dialog_u = false">Save</v-btn>
+                        <v-btn color="blue darken-1" flat @click="save_user()">Save</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -184,11 +181,12 @@
 <script>
 
     var tickets = [];
+    var users = [];
 
     function get_tickets(){
         fetch('/jira/get_tickets').then(function(response){
             if(response.status === 200){
-                response.json().then(data=>this.tickets=data);
+                response.json().then(function (data){ this.tickets=data['ticket']; this.users = data['users'] });
             }
         }).then(function () {
             var vue_app = new Vue({
@@ -234,7 +232,7 @@
                     tickets: this.tickets,
                     dialog_j: false,
                     dialog_u: false,
-                    users: ['A', 'B']
+                    users: this.users
                 }),
 
                 methods: {
@@ -257,7 +255,7 @@
 
 
                     save_user(){
-                        var user_data = {'first_name': $('[name="f-name"]').val(), 'middle_name': $('[name="m-name"]').val(),
+                        var user_data = {'first_name': $('[name="f-name"]').val(),
                             'last_name': $('[name="l-name"]').val(), 'email': $('[name="email"]').val(), 'mobile': $('[name="mobile"]').val(),
                             'team': $('[name="team"]').val()};
 
@@ -267,7 +265,7 @@
                                 "Content-type": "application/json; charset=UTF-8"
                             },
                             body: JSON.stringify({data: user_data})
-                        }).then(data=> this.dialog_u=data.status !==200).catch((error)=>console.log(error));
+                        }).then(data=> location.reload()).catch((error)=>console.log(error));
                     },
 
                     save_ticket(){

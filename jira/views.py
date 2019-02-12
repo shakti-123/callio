@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets, status
 from django.test import TestCase, Client
 
-from jira.models import Tickets
+from jira.models import Tickets, Users
 from jira.serializers import TicketsSerializer, UsersSerializer
 
 
@@ -49,9 +49,13 @@ class Jira(viewsets.ViewSet):
         """
 
         tickets = Tickets.objects.filter(active=1)
-        data = [{'summary': ticket.summary, 'description': ticket.description, 'assignee': ticket.assignee,
+        data = {}
+        data['ticket'] = [{'summary': ticket.summary, 'description': ticket.description, 'assignee': ticket.assignee,
                  'reporter': ticket.reporter, 'status': ticket.status, 'creation_date': ticket.creation_date,
                  'updated_date': ticket.update_date, 'tag': ticket.tag} for ticket in tickets]
+
+        users = Users.objects.filter(active=1)
+        data['users'] = [user.first_name for user in users]
 
         return Response(data, status=status.HTTP_200_OK)
 
@@ -70,6 +74,7 @@ class UserData(viewsets.ViewSet):
         """
         data = self.request.data
         try:
+            data = data['data']
             serializer = UsersSerializer(data=data)
             if serializer.is_valid():
                 serializer.fill()
@@ -79,8 +84,22 @@ class UserData(viewsets.ViewSet):
         except Exception as e:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @list_route(methods=['get'], url_path='get_users')
+    def get_users(self, request):
 
-class InventoryPageViewTest(TestCase):
+        """
+        Get saved history data.
+        :param request:
+        :return:
+        """
+
+        users = Users.objects.filter(active=1)
+        data = [user.first_name for user in users]
+
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class JiraPageViewTest(TestCase):
 
     def mock_ticket_data(self):
         data = {

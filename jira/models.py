@@ -8,7 +8,6 @@ class Users(Document):
     Stores User data
     """
     first_name = fields.StringField(default='')
-    middle_name = fields.StringField(default='')
     last_name = fields.StringField(default='')
     email = fields.StringField(default='')
     mobile = fields.IntField(default=0)
