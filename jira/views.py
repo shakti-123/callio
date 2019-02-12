@@ -64,6 +64,7 @@ class UserData(viewsets.ViewSet):
     """
     Handling User functions such as:
     Create: { url => /user/, request_type => POST , Data => Data required for user create} For Creating Users(Assignee/Reporter)
+    Get_users: { url => /user/get_users/, request_type => GET} For getting Users list
     """
 
     def create(self, request):
