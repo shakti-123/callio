@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="172dfe5a-0f30-473e-a525-1136b914a09e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/jira/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/callio/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/callio/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/callio/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/callio/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/jira/migrations/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/jira/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/jira/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/jira/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/jira/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/jira/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fibonacci/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/jira/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-    </list>
+    <list default="true" id="172dfe5a-0f30-473e-a525-1136b914a09e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,8 +59,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jira/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="80" column="35" lean-forward="true" selection-start-line="80" selection-start-column="35" selection-end-line="80" selection-end-column="35" />
+            <state relative-caret-position="556">
+              <caret line="65" column="33" lean-forward="true" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
               </folding>
@@ -267,7 +253,7 @@
       <workItem from="1549083042440" duration="5088000" />
       <workItem from="1549177283474" duration="13740000" />
       <workItem from="1549372831887" duration="1292000" />
-      <workItem from="1549943115626" duration="16095000" />
+      <workItem from="1549943115626" duration="16453000" />
     </task>
     <servers />
   </component>
@@ -292,7 +278,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38582000" />
+    <option name="totallyTimeSpent" value="38940000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1855" y="24" width="1855" height="1056" extended-state="6" />
@@ -313,7 +299,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="manage.py@callio" order="10" weight="0.3295099" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="12" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.3291536" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3295099" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -414,8 +400,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jira/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="80" column="35" lean-forward="true" selection-start-line="80" selection-start-column="35" selection-end-line="80" selection-end-column="35" />
+        <state relative-caret-position="556">
+          <caret line="65" column="33" lean-forward="true" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
           </folding>

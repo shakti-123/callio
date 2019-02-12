@@ -14,6 +14,11 @@ from jira.serializers import TicketsSerializer, UsersSerializer
 
 
 class Jira(viewsets.ViewSet):
+    """
+    Handing Ticket functions such as:
+    Create: { url => /jira/, request_type => POST , Data => Data required for ticket creation} For Creating Tickets
+    Get_tickets: { url => /jira/get_tickets/, request_type => GET} For getting Tickets list
+    """
 
     def create(self, request):
         """
@@ -52,6 +57,10 @@ class Jira(viewsets.ViewSet):
 
 
 class UserData(viewsets.ViewSet):
+    """
+    Handling User functions such as:
+    Create: { url => /user/, request_type => POST , Data => Data required for user create} For Creating Users(Assignee/Reporter)
+    """
 
     def create(self, request):
         """
