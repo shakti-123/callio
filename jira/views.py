@@ -1,0 +1,99 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+import json
+from django.http import HttpResponse
+from datetime import datetime
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
+from rest_framework import viewsets, status
+from django.test import TestCase, Client
+
+from jira.models import Tickets
+from jira.serializers import TicketsSerializer, UsersSerializer
+
+
+class Jira(viewsets.ViewSet):
+
+    def create(self, request):
+        """
+        Saving ticket data.
+        :param request:
+        :return:
+        """
+        data = self.request.data
+        try:
+            data = data['data']
+            data.update({'creation_date': datetime.now(), 'update_date': datetime.now(), 'active': 1, 'priority': 0})
+            serializer = TicketsSerializer(data=data)
+            if serializer.is_valid():
+                serializer.fill()
+                serializer.save()
+
+            return HttpResponse(json.dumps('OK'), content_type='application/json')
+        except Exception as e:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @list_route(methods=['get'], url_path='get_tickets')
+    def get_tickets(self, request):
+
+        """
+        Get saved history data.
+        :param request:
+        :return:
+        """
+
+        tickets = Tickets.objects.filter(active=1)
+        data = [{'summary': ticket.summary, 'description': ticket.description, 'assignee': ticket.assignee,
+                 'reporter': ticket.reporter, 'status': ticket.status, 'creation_date': ticket.creation_date,
+                 'updated_date': ticket.update_date, 'tag': ticket.tag} for ticket in tickets]
+
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class UserData(viewsets.ViewSet):
+
+    def create(self, request):
+        """
+        Saving user data.
+        :param request:
+        :return:
+        """
+        data = self.request.data
+        try:
+            serializer = UsersSerializer(data=data)
+            if serializer.is_valid():
+                serializer.fill()
+                serializer.save()
+
+            return HttpResponse(json.dumps('OK'), content_type='application/json')
+        except Exception as e:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class InventoryPageViewTest(TestCase):
+
+    def mock_ticket_data(self):
+        data = {
+            'summary': 'Summary',
+            'description': 'Description',
+            'assignee': 'Assignee',
+            'reporter': 'Reporter',
+            'status': 'Done',
+            'tag': 'All Done'
+        }
+
+        return data
+
+    def test_ticket_create(self):
+
+        data = {'data': self.mock_ticket_data()}
+        response = self.client.post('/jira/', data=json.dumps(data))
+
+        self.assertEqual(response.status_code, 200, 'Ticket Creation Failed')
+
+    def test_ticket_fetch(self):
+
+        response = self.client.get('/jira/get_tickets/')
+
+        self.assertEqual(response.status_code, 200, 'Ticket Creation Failed')

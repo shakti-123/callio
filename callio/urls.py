@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework import routers
 
-from fibonacci.views import Fibonacci
+from jira.views import Jira, UserData
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -12,6 +12,7 @@ urlpatterns = [
 
 router = routers.SimpleRouter()
 
-router.register(r'fibonacci', Fibonacci, base_name='fibonacci')
+router.register(r'jira', Jira, base_name='jira')
+router.register(r'user', UserData, base_name='user')
 
 urlpatterns += router.urls
